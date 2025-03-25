@@ -1,0 +1,51 @@
+_schema-version: 3.3.0
+ID: VF_ADMIN_ACCESS
+version: 1.0.0
+description: A simple CAP project.
+parameters:
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm ci
+        - npx cds build --production
+modules:
+  - name: VF_ADMIN_ACCESS-srv
+    type: nodejs
+    path: gen/srv
+    parameters:
+      instances: 1
+      buildpack: nodejs_buildpack
+    build-parameters:
+      builder: npm-ci
+    provides:
+      - name: srv-api
+        properties:
+          srv-url: '${default-url}'
+    requires:
+      - name: VF_ADMIN_ACCESS-hdi-db
+      - name: ADMIN_ACCESS-auth
+  - name: VF_ADMIN_ACCESS-hdi-db-deployer
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+    requires:
+      - name: VF_ADMIN_ACCESS-hdi-db
+resources:
+  - name: VF_ADMIN_ACCESS-hdi-db
+    type: com.sap.xs.hdi-container
+    parameters:
+      config:
+        schema: TERRITORY_MGMT
+      service: hana
+      service-plan: hdi-shared
+  - name: ADMIN_ACCESS-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        tenant-mode: dedicated

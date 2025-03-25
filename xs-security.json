@@ -1,0 +1,21 @@
+{
+  "xsappname": "ADMINaccess-app",
+  "tenant-mode": "dedicated",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Authenticated-user",
+      "description": "Authenticated-user"
+    }
+  ],
+  "attributes": [],
+  "role-templates": [
+    {
+      "name": "Authenticated-user",
+      "description": "generated",
+      "scope-references": [
+        "$XSAPPNAME.Authenticated-user"
+      ],
+      "attribute-references": []
+    }
+  ]
+}

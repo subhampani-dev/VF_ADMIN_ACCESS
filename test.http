@@ -1,0 +1,26 @@
+###Do a GET call for the table
+
+GET http://localhost:4004/ADM_srv/TB_USER_PROFILE?$expand=SubAccountAccess,SpaceAccess,AssignedRoleCollections
+
+
+### Create a new user profile with nested compositions
+POST http://localhost:4004/ADM_srv/TB_USER_PROFILE
+Content-Type: application/json
+
+{
+  "USER_PID": "P12345678",
+  "USER_EMAIL_ID": "subhampani@yahoo.com",
+  "STATUS": "ACTIVE",
+  "SubAccountAccess": [
+    { "SUBACCOUNT_VALUE": "DEV" },
+    { "SUBACCOUNT_VALUE": "Dev_Test" }
+  ],
+  "SpaceAccess": [
+    { "SPACE_VALUE": "SPACE1_TEST" },
+    { "SPACE_VALUE": "SPACE2_TEST" }
+  ],
+  "AssignedRoleCollections": [
+    { "ROLE_COLLECTION_VALUE": "BAS Developer" },
+    { "ROLE_COLLECTION_VALUE": "Destination developer" }
+  ]
+}
