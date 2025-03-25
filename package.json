@@ -10,6 +10,7 @@
     "@sap/cds": "^8",
     "@sap/xsenv": "^5.5.0",
     "@sap/xssec": "^4.5.0",
+    "axios": "^1.8.4",
     "express": "^4"
   },
   "devDependencies": {
@@ -21,23 +22,26 @@
     "start": "cds-serve"
   },
   "cds": {
-    "requires": {
-      "[production]": {
+    "[production]": {
+      "requires": {
         "db": "hana",
         "auth": "xsuaa"
-      },
-      "[development]": {
+      }
+    },
+    "[development]": {
+      "requires": {
         "db": {
-          "kind": "hana"
+          "kind": "sqlite",
+          "credentials": {
+            "url": ":memory:"
+          }
         }
-      },
-      "auth": {
-        "[development]": {
-          "kind": "dummy"
-        },
-        "[production]": {
-          "kind": "xsuaa"
-        }
+      }
+    },
+    "[hybrid]": {
+      "requires": {
+        "db": "hana",
+        "auth": "xsuaa"
       }
     }
   }

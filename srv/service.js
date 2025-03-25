@@ -6,7 +6,7 @@ module.exports = cds.service.impl(async function () {
     const { Subaccounts, Spaces } = this.entities;
 
     // Load credentials dynamically from bound service (e.g., XSUAA)
-    const services = xsenv.getServices({ uaa: { tag: "ADMIN_ACCESS-auth" } });
+    const services = xsenv.getServices({ xsuaa: { name: "ADMIN_ACCESS-auth" } });
 
     async function getAccessToken() {
         const response = await axios.post(services.uaa.url + "/oauth/token", null, {

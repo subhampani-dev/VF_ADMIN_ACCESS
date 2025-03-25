@@ -38,7 +38,7 @@ resources:
     type: com.sap.xs.hdi-container
     parameters:
       config:
-        schema: TERRITORY_MGMT
+        schema: VF_ACCESS
       service: hana
       service-plan: hdi-shared
   - name: ADMIN_ACCESS-auth
@@ -48,4 +48,5 @@ resources:
       service-plan: application
       path: ./xs-security.json
       config:
+        xsappname: ADMINaccess-app
         tenant-mode: dedicated

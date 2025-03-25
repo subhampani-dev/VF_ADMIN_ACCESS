@@ -1,10 +1,13 @@
+
+@baseUrl=http://localhost:4004
+
 ###Do a GET call for the table
 
-GET http://localhost:4004/ADM_srv/TB_USER_PROFILE?$expand=SubAccountAccess,SpaceAccess,AssignedRoleCollections
+GET {{baseUrl}}/ADM_srv/TB_USER_PROFILE?$expand=SubAccountAccess,SpaceAccess,AssignedRoleCollections
 
 
 ### Create a new user profile with nested compositions
-POST http://localhost:4004/ADM_srv/TB_USER_PROFILE
+POST {{baseUrl}}/ADM_srv/TB_USER_PROFILE
 Content-Type: application/json
 
 {
@@ -24,3 +27,13 @@ Content-Type: application/json
     { "ROLE_COLLECTION_VALUE": "Destination developer" }
   ]
 }
+
+###
+# Function call getSubaccounts()
+# @name getSubaccounts_function_GET
+GET {{baseUrl}}/ADM_srv/getSubaccounts()
+
+###
+# Function call getSpaces()
+# @name getSpaces_function_GET
+GET {{baseUrl}}/ADM_srv/getSpaces(subaccountId='')
