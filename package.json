@@ -30,6 +30,12 @@
     },
     "[development]": {
       "requires": {
+        "auth": {
+          "kind": "mocked",
+          "users": {
+            "admin@user.com": {}
+          }
+        },
         "db": {
           "kind": "sqlite",
           "credentials": {

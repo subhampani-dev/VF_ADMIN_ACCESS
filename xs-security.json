@@ -1,4 +1,6 @@
 {
+  "xsappname": "ADMINaccess-app",
+  "tenant-mode": "dedicated",
   "scopes": [],
   "attributes": [],
   "role-templates": []
