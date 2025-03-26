@@ -34,6 +34,28 @@ modules:
       buildpack: nodejs_buildpack
     requires:
       - name: VF_ADMIN_ACCESS-hdi-db
+
+  - name: VF_ADMIN_ACCESS
+    type: approuter.nodejs
+    path: app/router
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: ADMIN_ACCESS-auth
+      - name: VF_ADMIN_ACCESS-destination
+    provides:
+      - name: app-api
+        properties:
+          app-protocol: ${protocol}
+          app-uri: ${default-uri}
 resources:
   - name: VF_ADMIN_ACCESS-hdi-db
     type: com.sap.xs.hdi-container
