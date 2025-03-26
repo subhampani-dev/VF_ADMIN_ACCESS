@@ -6,9 +6,9 @@ module.exports = cds.service.impl(async function () {
     const { Subaccounts, Spaces } = this.entities;
 
     // Load credentials dynamically from bound service (e.g., XSUAA)
-    const services = xsenv.getServices({ xsuaa: { name: "ADMIN_ACCESS-auth" } });
+    // const services = xsenv.getServices({ xsuaa: { name: "ADMIN_ACCESS-auth" } });
 
-    console.log("XSUAA Services Credentials:", services)
+    // console.log("XSUAA Services Credentials:", services)
 
     async function getAccessToken() {
         try {
@@ -27,10 +27,8 @@ module.exports = cds.service.impl(async function () {
 
     this.on('getSubaccounts', async () => {
         try {
-            const accessToken = await getAccessToken();
-            const response = await axios.get('https://accounts.cloud.sap/api/accounts/v1/subaccounts', {
-                headers: { Authorization: `Bearer ${accessToken}` }
-            });
+            const accountServiceAPI = await cds.connect.to('account-service-api');
+            const response = await accountServiceAPI.get('/accounts/v1/subaccounts');
 
             if (!response.data.value) {
                 throw new Error("Unexpected API response format");

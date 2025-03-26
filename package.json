@@ -47,11 +47,17 @@
     "[hybrid]": {
       "requires": {
         "db": "hana",
-        "auth": "xsuaa"
+        "auth": "dummy"
       }
     },
     "requires": {
       "destinations": true
+    },
+    "account-service-api": {
+      "kind": "rest",
+      "credentials": {
+        "destination": "account-service-api"
+      }
     }
   }
 }
