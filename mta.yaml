@@ -26,6 +26,7 @@ modules:
     requires:
       - name: VF_ADMIN_ACCESS-hdi-db
       - name: ADMIN_ACCESS-auth
+      - name: VF_ADMIN_ACCESS-destination
   - name: VF_ADMIN_ACCESS-hdi-db-deployer
     type: hdb
     path: gen/db
@@ -50,3 +51,8 @@ resources:
       config:
         xsappname: ADMINaccess-app
         tenant-mode: dedicated
+  - name: VF_ADMIN_ACCESS-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite

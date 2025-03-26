@@ -28,7 +28,7 @@ module.exports = cds.service.impl(async function () {
     this.on('getSubaccounts', async () => {
         try {
             const accessToken = await getAccessToken();
-            const response = await axios.get('https://accounts.cloud.sap/api/accounts/v1/subaccounts', {
+            const response = await axios.get('https://accounts-service.cfapps.eu10.hana.ondemand.com/api/accounts/v1/subaccounts', {
                 headers: { Authorization: `Bearer ${accessToken}` }
             });
 
@@ -75,4 +75,16 @@ module.exports = cds.service.impl(async function () {
             throw new Error("Unable to retrieve spaces. Please try again later.");
         }
     });
+
+    this.on('getAPISubaccounts', this.getSubaccounts);
+
+    async function getSubaccounts() {
+        const accountService = cds.connect.to('Accounts.Service');
+        const response = await accountService.get('/accounts/v1/subaccounts');
+        return response.data.value.map((res) => ({
+            subaccountId: res.guid,
+            name: res.displayName,
+            region: res.region
+        }));
+    }
 });

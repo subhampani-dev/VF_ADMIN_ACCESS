@@ -49,6 +49,13 @@
         "db": "hana",
         "auth": "xsuaa"
       }
+    },
+    "requires": {
+      "Accounts.Service": {
+        "kind": "rest",
+        "model": "srv/external/APIAccountsService"
+      },
+      "destinations": true
     }
   }
 }
