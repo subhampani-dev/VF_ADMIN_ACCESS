@@ -49,6 +49,9 @@
         "db": "hana",
         "auth": "xsuaa"
       }
+    },
+    "requires": {
+      "destinations": true
     }
   }
 }
