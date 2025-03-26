@@ -6,20 +6,22 @@ service ADM_service @(path: '/ADM_srv') @(requires: ['authenticated-user']) {
     @readonly
     entity Subaccounts {
         key subaccountId : String;
-        name            : String;
-        region          : String;
+            name         : String;
+            region       : String;
     }
 
     @readonly
     entity Spaces {
-        key spaceId       : String;
-        name             : String;
-        subaccountId     : String;
+        key spaceId      : String;
+            name         : String;
+            subaccountId : String;
     }
 
     @requires: 'authenticated-user'
-    function getSubaccounts() returns array of Subaccounts;
+    function getSubaccounts()                 returns array of Subaccounts;
 
     @requires: 'authenticated-user'
-    function getSpaces(subaccountId: String) returns array of Spaces;
+    function getSpaces(subaccountId : String) returns array of Spaces;
+
+    function getAPISubaccounts()              returns array of Subaccounts;
 }

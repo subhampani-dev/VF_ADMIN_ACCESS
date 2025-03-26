@@ -73,4 +73,16 @@ module.exports = cds.service.impl(async function () {
             throw new Error("Unable to retrieve spaces. Please try again later.");
         }
     });
+
+    this.on('getAPISubaccounts', this.getSubaccounts);
+
+    async function getSubaccounts() {
+        const accountService = cds.connect.to('Accounts.Service');
+        const response = await accountService.get('/accounts/v1/subaccounts');
+        return response.data.value.map((res) => ({
+            subaccountId: res.guid,
+            name: res.displayName,
+            region: res.region
+        }));
+    }
 });
