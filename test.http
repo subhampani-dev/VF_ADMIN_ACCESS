@@ -34,6 +34,10 @@ Content-Type: application/json
 GET {{baseUrl}}/ADM_srv/getSubaccounts()
 
 ###
+
+@subAccountId={{getSubaccounts_function_GET.response.body.$.value[0].subaccountId}}
+
+###
 # Function call getSpaces()
 # @name getSpaces_function_GET
-GET {{baseUrl}}/ADM_srv/getSpaces(subaccountId='')
+GET {{baseUrl}}/ADM_srv/getSpaces(subaccountId={{subAccountId}})

@@ -9,7 +9,7 @@ module.exports = cds.service.impl(async function () {
     // const services = xsenv.getServices({ xsuaa: { name: "ADMIN_ACCESS-auth" } });
 
     // console.log("XSUAA Services Credentials:", services)
-
+    const accountServiceAPI = await cds.connect.to('account-service-api');
     async function getAccessToken() {
         try {
             const response = await axios.post(services.xsuaa.url + "/oauth/token", null, {
@@ -27,14 +27,14 @@ module.exports = cds.service.impl(async function () {
 
     this.on('getSubaccounts', async () => {
         try {
-            const accountServiceAPI = await cds.connect.to('account-service-api');
             const response = await accountServiceAPI.get('/accounts/v1/subaccounts');
 
-            if (!response.data.value) {
+            console.log("Response: ", response);
+            if (!response.value) {
                 throw new Error("Unexpected API response format");
             }
 
-            return response.data.value.map(acc => ({
+            return response.value.map(acc => ({
                 subaccountId: acc.guid,
                 name: acc.displayName,
                 region: acc.region
@@ -54,16 +54,16 @@ module.exports = cds.service.impl(async function () {
         }
 
         try {
-            const accessToken = await getAccessToken();
-            const response = await axios.get(`https://accounts.cloud.sap/api/accounts/v1/subaccounts/${subaccountId}/spaces`, {
-                headers: { Authorization: `Bearer ${accessToken}` }
-            });
 
-            if (!response.data.value) {
+            const response = await accountServiceAPI.get(`/accounts/v1/subaccounts/${subaccountId}`);
+
+            console.log("Response: ", response);
+
+            if (!response.value) {
                 throw new Error("Unexpected API response format");
             }
 
-            return response.data.value.map(space => ({
+            return response.value.map(space => ({
                 spaceId: space.guid,
                 name: space.name,
                 subaccountId: subaccountId
@@ -73,16 +73,4 @@ module.exports = cds.service.impl(async function () {
             throw new Error("Unable to retrieve spaces. Please try again later.");
         }
     });
-
-    this.on('getAPISubaccounts', this.getSubaccounts);
-
-    async function getSubaccounts() {
-        const accountService = cds.connect.to('Accounts.Service');
-        const response = await accountService.get('/accounts/v1/subaccounts');
-        return response.data.value.map((res) => ({
-            subaccountId: res.guid,
-            name: res.displayName,
-            region: res.region
-        }));
-    }
 });
