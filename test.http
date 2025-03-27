@@ -40,4 +40,4 @@ GET {{baseUrl}}/ADM_srv/getSubaccounts()
 ###
 # Function call getSpaces()
 # @name getSpaces_function_GET
-GET {{baseUrl}}/ADM_srv/getSpaces(subaccountId={{subAccountId}})
+GET {{baseUrl}}/ADM_srv/getSpaces()

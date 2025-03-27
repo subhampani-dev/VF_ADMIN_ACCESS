@@ -15,6 +15,30 @@
       "skipFiles": [
         "<node_internals>/**"
       ]
+    },
+    {
+      "name": "Run VF_ADMIN_ACCESS-hybrid",
+      "request": "launch",
+      "type": "node",
+      "cwd": "${workspaceFolder}",
+      "runtimeExecutable": "cds",
+      "args": [
+        "watch",
+        "--profile",
+        "hybrid",
+        "--port",
+        "4004"
+      ],
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "envFile": "${workspaceFolder}/.env1",
+      "env": {
+        "NODE_ENV": "hybrid",
+        "run.config": "{\"handlerId\":\"cap_run_config_handler_id\",\"runnableId\":\"{\\\"projectPath\\\":\\\"/home/user/projects/VF_ADMIN_ACCESS\\\",\\\"profileName\\\":\\\"hybrid\\\"}\"}"
+      }
     }
   ]
 }

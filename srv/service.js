@@ -10,6 +10,8 @@ module.exports = cds.service.impl(async function () {
 
     // console.log("XSUAA Services Credentials:", services)
     const accountServiceAPI = await cds.connect.to('account-service-api');
+    const provisioningServiceAPI = await cds.connect.to('provisioning-service-api'); // currently 
+    const serviceManagerAPI = await cds.connect.to('service-manager-api');
     async function getAccessToken() {
         try {
             const response = await axios.post(services.xsuaa.url + "/oauth/token", null, {
@@ -46,28 +48,34 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('getSpaces', async (req) => {
-        const { subaccountId } = req.data;
+        // const { subaccountId } = req.data;
 
-        if (!subaccountId) {
-            req.error(400, "subaccountId is required");
-            return;
-        }
+        // if (!subaccountId) {
+        //     req.error(400, "subaccountId is required");
+        //     return;
+        // }
 
         try {
 
-            const response = await accountServiceAPI.get(`/accounts/v1/subaccounts/${subaccountId}`);
+            const response = await serviceManagerAPI.get(`/v1/service_instances`);
 
             console.log("Response: ", response);
-
-            if (!response.value) {
+            if (!response) {
                 throw new Error("Unexpected API response format");
             }
-
-            return response.value.map(space => ({
-                spaceId: space.guid,
-                name: space.name,
-                subaccountId: subaccountId
-            }));
+            spaces = [];
+            results = [];
+            response.items.forEach(element => {
+                if (element.context?.space_name && !spaces.includes(element.context?.space_name)) {
+                    results.push({
+                        spaceId: element.context?.space_guid,
+                        name: element.context?.space_name,
+                        subaccountId: element.context?.subaccount_id
+                    })
+                    spaces.push(element.context?.space_name);
+                }
+            });
+            return results;
         } catch (error) {
             console.error("Error fetching spaces:", error.message);
             throw new Error("Unable to retrieve spaces. Please try again later.");

@@ -21,5 +21,5 @@ service ADM_service @(path: '/ADM_srv') @(requires: ['authenticated-user']) {
     function getSubaccounts()                 returns array of Subaccounts;
 
     @requires: 'authenticated-user'
-    function getSpaces(subaccountId : String) returns array of Spaces;
+    function getSpaces() returns array of Spaces;
 }
