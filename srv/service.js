@@ -9,8 +9,24 @@ module.exports = cds.service.impl(async function () {
     // const services = xsenv.getServices({ xsuaa: { name: "ADMIN_ACCESS-auth" } });
 
     // console.log("XSUAA Services Credentials:", services)
+
+    /*
+    * Cloud Management service - I used a plan of "central viewer" for creating this service instance 
+    * it accepts - client credentials as grant type - read only authorization of api - can't able to do all CRUD
+    * API Documentation: https://api.sap.com/api/APIAccountsService/overview
+    * sap help docs: https://help.sap.com/docs/btp/sap-business-technology-platform/sap-cloud-management-service-service-plans
+    *                https://help.sap.com/docs/btp/sap-business-technology-platform/account-administration-using-apis
+    */
     const accountServiceAPI = await cds.connect.to('account-service-api');
-    const provisioningServiceAPI = await cds.connect.to('provisioning-service-api'); // currently 
+    const provisioningServiceAPI = await cds.connect.to('provisioning-service-api'); // currently need to R&D about this.
+
+
+    /*
+    * service manager api - only created for this subaccount 0a2bf81dtrial with spaces of dev in cloud foundry
+    * so - now only we can retrieve the spaces details of this specific subaccount
+    * API Documentation: https://api.sap.com/api/APIServiceManager/overview
+    * sap help docs: https://help.sap.com/docs/service-manager/sap-service-manager/working-with-sap-service-manager-apis
+    */
     const serviceManagerAPI = await cds.connect.to('service-manager-api');
     async function getAccessToken() {
         try {
@@ -55,8 +71,8 @@ module.exports = cds.service.impl(async function () {
         //     return;
         // }
 
+        // now only we can retrieve the spaces details of this subaccount because of service manager instance available only in this subaccount
         try {
-
             const response = await serviceManagerAPI.get(`/v1/service_instances`);
 
             console.log("Response: ", response);
