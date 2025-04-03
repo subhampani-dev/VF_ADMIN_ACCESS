@@ -18,19 +18,21 @@ service ADM_service @(path: '/ADM_srv') @(requires: ['authenticated-user']) {
     }
 
     @requires: 'authenticated-user'
-    function getSubaccounts()                 returns array of Subaccounts;
+    function getSubaccounts() returns array of Subaccounts;
 
     @requires: 'authenticated-user'
-    function getSpaces() returns array of Spaces;
+    function getSpaces()      returns array of Spaces;
+
+    function getSpacesPSAPI() returns Map;
 }
 
-service SpaceService @(impl : './Srv_Space.js')@(path: '/GetSpacedata') @(requires: ['authenticated-user'])
-{
+service SpaceService @(impl: './Srv_Space.js') @(path: '/GetSpacedata') @(requires: ['authenticated-user']) {
     @readonly
-        entity Spaces {
-        key spaceId      : String;
-            name         : String;
-            Org_ID : String;
+    entity Spaces {
+        key spaceId : String;
+            name    : String;
+            Org_ID  : String;
     }
-    function getSpacesFromSubaccount (subaccountId : String) returns array of Spaces;
+
+    function getSpacesFromSubaccount(subaccountId : String) returns array of Spaces;
 }

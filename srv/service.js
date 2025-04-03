@@ -1,12 +1,12 @@
 const cds = require('@sap/cds');
 const axios = require('axios');
 const xsenv = require('@sap/xsenv');
-
+const { getDestinationFromDestinationService } = require('@sap-cloud-sdk/connectivity')
 module.exports = cds.service.impl(async function () {
     const { Subaccounts, Spaces } = this.entities;
 
     // Load credentials dynamically from bound service (e.g., XSUAA)
-    // const services = xsenv.getServices({ xsuaa: { name: "ADMIN_ACCESS-auth" } });
+    const services = xsenv.getServices({ xsuaa: { name: "ADMIN_ACCESS-auth" } });
 
     // console.log("XSUAA Services Credentials:", services)
 
@@ -79,8 +79,8 @@ module.exports = cds.service.impl(async function () {
             if (!response) {
                 throw new Error("Unexpected API response format");
             }
-            spaces = [];
-            results = [];
+            const spaces = [];
+            const results = [];
             response.items.forEach(element => {
                 if (element.context?.space_name && !spaces.includes(element.context?.space_name)) {
                     results.push({
@@ -97,4 +97,38 @@ module.exports = cds.service.impl(async function () {
             throw new Error("Unable to retrieve spaces. Please try again later.");
         }
     });
+
+    this.on('getSpacesPSAPI', async (req) => {
+        try {
+            const accessTokenData = await getAccessTokenforPSAPI();
+            const accessToken = accessTokenData.authTokens[0].value; // Ensure authTokens is correctly structured
+            console.log("Token: ", accessToken);
+
+            // Correcting headers and request format
+            const response = await provisioningServiceAPI.get('/provisioning/v1/environments', {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            });
+
+            return response.data; // Ensure you're returning the correct part of the response object
+        } catch (error) {
+            console.error("Error fetching spaces from Provisioning Service API: ", error);
+            throw error;
+        }
+    });
+
+    // Function to fetch access token
+    async function getAccessTokenforPSAPI() {
+        try {
+            const destinationProvisionServiceAPI = await getDestinationFromDestinationService({
+                destinationName: 'provisioning-service-api'
+            });
+            return destinationProvisionServiceAPI;
+        } catch (error) {
+            console.error("Error fetching destination details: ", error);
+            throw error;
+        }
+    }
+
 });
