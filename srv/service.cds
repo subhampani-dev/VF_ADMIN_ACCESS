@@ -32,5 +32,5 @@ service SpaceService @(impl : './Srv_Space.js')@(path: '/GetSpacedata') @(requir
             name         : String;
             Org_ID : String;
     }
-    action getSpacesFromSubaccount (subaccountId : String) returns array of Spaces;
+    function getSpacesFromSubaccount (subaccountId : String) returns array of Spaces;
 }
