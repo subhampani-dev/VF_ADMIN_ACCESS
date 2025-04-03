@@ -41,3 +41,12 @@ GET {{baseUrl}}/ADM_srv/getSubaccounts()
 # Function call getSpaces()
 # @name getSpaces_function_GET
 GET {{baseUrl}}/ADM_srv/getSpaces()
+
+######
+
+POST {{baseUrl}}/GetSpacedata/getSpacesFromSubaccount
+Content-Type: application/json
+
+{
+  "subaccountId": "43c9bb1f-d5e6-4c25-af7a-4888e40026d4"
+}

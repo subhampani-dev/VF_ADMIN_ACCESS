@@ -73,6 +73,12 @@
         "credentials": {
           "destination": "service-manager-api"
         }
+      },
+      "BTP_Management_API": {
+        "kind": "rest",
+        "credentials": {
+          "destination": "BTP_Management_API"
+        }
       }
     },
     "hana": {

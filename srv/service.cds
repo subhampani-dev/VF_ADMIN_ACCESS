@@ -23,3 +23,14 @@ service ADM_service @(path: '/ADM_srv') @(requires: ['authenticated-user']) {
     @requires: 'authenticated-user'
     function getSpaces() returns array of Spaces;
 }
+
+service SpaceService @(impl : './Srv_Space.js')@(path: '/GetSpacedata') @(requires: ['authenticated-user'])
+{
+    @readonly
+        entity Spaces {
+        key spaceId      : String;
+            name         : String;
+            Org_ID : String;
+    }
+    action getSpacesFromSubaccount (subaccountId : String) returns array of Spaces;
+}
