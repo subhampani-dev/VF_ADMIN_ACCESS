@@ -44,9 +44,79 @@ GET {{baseUrl}}/ADM_srv/getSpaces()
 
 ######
 
-POST {{baseUrl}}/GetSpacedata/getSpacesFromSubaccount
+GET {{baseUrl}}/GetSpacedata/getSpacesFromSubaccount
 Content-Type: application/json
 
 {
   "subaccountId": "43c9bb1f-d5e6-4c25-af7a-4888e40026d4"
+}
+
+
+### Create a New User
+POST{{baseUrl}}/user-management-service/CreateUser
+Content-Type: application/json
+
+{
+  "userName": "john.doe",
+  "emails": [
+    { "value": "john.doe@example.com", "type": "work" }
+  ],
+  "roles": [
+    "MyRoleCollection"
+  ]
+}
+
+###
+
+### Get All Users
+GET {{baseUrl}}/user-management-service/GetUsers
+
+###
+
+### Update User
+POST {{baseUrl}}/user-management-service/UpdateUser
+Content-Type: application/json
+
+{
+  "ID": "replace-with-user-id",
+  "userName": "john.doe",
+  "emails": [
+    { "value": "john.doe@newdomain.com", "type": "work" }
+  ],
+  "roles": [
+    "UpdatedRoleCollection"
+  ]
+}
+
+###
+
+### Delete User
+POST {{baseUrl}}/user-management-service/DeleteUser
+Content-Type: application/json
+
+{
+  "ID": "replace-with-user-id"
+}
+
+#####
+
+POST {{baseUrl}}/space-access-service/AssignSpaceDeveloper
+Content-Type: application/json
+
+{
+  "data": {
+    "userGUID": "example-user-guid",
+    "spaceGUID": "34e33b2b-a2aa-4003-a485-d56267659b22"
+  }
+}
+
+### Get user GUID by email
+POST http://localhost:4004/Lookup_srv/GetUserGUIDByEmail
+Content-Type: application/json
+
+{
+  "data": {
+    "userName": "subhampani1313@gmail.com",
+    "origin": "ldap"
+  }
 }

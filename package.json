@@ -79,6 +79,18 @@
         "credentials": {
           "destination": "BTP_Management_API"
         }
+      },
+      "SCIM_API": {
+        "kind": "rest",
+        "credentials": {
+          "destination": "SCIM_API"
+        }
+      },
+      "CF_API": {
+        "kind": "rest",
+        "credentials": {
+          "destination": "CF_API"
+        }
       }
     },
     "hana": {

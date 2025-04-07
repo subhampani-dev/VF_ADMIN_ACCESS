@@ -6,7 +6,7 @@ module.exports = cds.service.impl(async function () {
     const { Subaccounts, Spaces } = this.entities;
 
     // Load credentials dynamically from bound service (e.g., XSUAA)
-    const services = xsenv.getServices({ xsuaa: { name: "ADMIN_ACCESS-auth" } });
+    //const services = xsenv.getServices({ xsuaa: { name: "ADMIN_ACCESS-auth" } });
 
     // console.log("XSUAA Services Credentials:", services)
 
@@ -28,20 +28,20 @@ module.exports = cds.service.impl(async function () {
     * sap help docs: https://help.sap.com/docs/service-manager/sap-service-manager/working-with-sap-service-manager-apis
     */
     const serviceManagerAPI = await cds.connect.to('service-manager-api');
-    async function getAccessToken() {
-        try {
-            const response = await axios.post(services.xsuaa.url + "/oauth/token", null, {
-                auth: {
-                    username: services.xsuaa.clientid,
-                    password: services.xsuaa.clientsecret
-                },
-                params: { grant_type: "client_credentials" }
-            });
-            return response.data.access_token;
-        } catch (error) {
-            throw new Error("Failed to fetch access token: " + error.message);
-        }
-    }
+    // async function getAccessToken() {
+    //     try {
+    //         const response = await axios.post(services.xsuaa.url + "/oauth/token", null, {
+    //             auth: {
+    //                 username: services.xsuaa.clientid,
+    //                 password: services.xsuaa.clientsecret
+    //             },
+    //             params: { grant_type: "client_credentials" }
+    //         });
+    //         return response.data.access_token;
+    //     } catch (error) {
+    //         throw new Error("Failed to fetch access token: " + error.message);
+    //     }
+    // }
 
     this.on('getSubaccounts', async () => {
         try {

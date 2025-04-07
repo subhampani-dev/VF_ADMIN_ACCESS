@@ -14,6 +14,8 @@ module.exports = cds.service.impl(async function () {
                     Headers: { 'Accept': 'application/json' }
                 }
             );
+            if (!response) throw new Error("Response is not reftched");
+         console.log("Response :" +response.length)
             return response.data.map(space => ({
                 spaceId: space.guid,
                 name: space.name,
