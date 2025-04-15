@@ -100,12 +100,12 @@ Content-Type: application/json
 
 #####
 
-POST {{baseUrl}}/space-access-service/AssignSpaceDeveloper
+POST {{baseUrl}}/Sapce_srv/AssignSpaceDeveloper
 Content-Type: application/json
 
 {
   "data": {
-    "userGUID": "example-user-guid",
+    "userGUID": "0f1582b8-514c-45f6-b110-00ae1ea2bc31",
     "spaceGUID": "34e33b2b-a2aa-4003-a485-d56267659b22"
   }
 }
@@ -117,6 +117,6 @@ Content-Type: application/json
 {
   "data": {
     "userName": "subhampani1313@gmail.com",
-    "origin": "ldap"
+    "origin": "sap.default"
   }
 }

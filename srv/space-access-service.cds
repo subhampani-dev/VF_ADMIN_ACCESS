@@ -1,4 +1,6 @@
-service SpaceAccessService {
+using { cuid } from '@sap/cds/common';
+
+service SpaceAccessService @(path: '/Sapce_srv') {
 
   type RoleAssignmentInput : {
     userGUID  : String;
